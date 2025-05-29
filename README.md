@@ -1,6 +1,6 @@
 # Laporan Proyek Machine Learning - Pandu Persada Tanjung
 
-## Domain Proyek
+## Project Overview
 
 Di tengah maraknya layanan streaming yang menawarkan ribuan judul film, pengguna kerap mengalami kesulitan dalam memilih tontonan yang sesuai dengan preferensi mereka. Untuk mengatasi tantangan ini, sistem rekomendasi hadir sebagai solusi yang mampu menyaring dan menyuguhkan konten yang relevan secara personal. Khususnya dalam industri hiburan, sistem ini memegang peranan penting dalam meningkatkan keterlibatan dan kenyamanan pengguna. Oleh sebab itu, pengembangan sistem rekomendasi berbasis konten menjadi langkah strategis guna membantu pengguna menemukan film yang sesuai minat mereka, serta mendorong peningkatan kepuasan dan waktu menonton.
 
