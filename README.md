@@ -1,6 +1,6 @@
 # Laporan Proyek Machine Learning - Pandu Persada Tanjung
 
-## Project Overview
+## Domain Proyek
 
 Di tengah maraknya layanan streaming yang menawarkan ribuan judul film, pengguna kerap mengalami kesulitan dalam memilih tontonan yang sesuai dengan preferensi mereka. Untuk mengatasi tantangan ini, sistem rekomendasi hadir sebagai solusi yang mampu menyaring dan menyuguhkan konten yang relevan secara personal. Khususnya dalam industri hiburan, sistem ini memegang peranan penting dalam meningkatkan keterlibatan dan kenyamanan pengguna. Oleh sebab itu, pengembangan sistem rekomendasi berbasis konten menjadi langkah strategis guna membantu pengguna menemukan film yang sesuai minat mereka, serta mendorong peningkatan kepuasan dan waktu menonton.
 
@@ -18,9 +18,7 @@ Sistem ini menganalisis fitur konten seperti genre dan deskripsi film menggunaka
 
 ## Data Understanding
 Sumber Data: [IMDb Movie Dataset](https://github.com/pandutanjung/film-recommendation-system/tree/d8140c80e886f6149452072804b39f4173854389/dataset)
-
 Jumlah Data: 1400
-
 Format:CSV
 
 ### Fitur
@@ -81,13 +79,14 @@ Kolom seperti review_url, release_date, dan run_length dihapus menggunakan df.dr
 Mengaplikasikan OneHotEncoder dari library scikit-learn untuk mengubah nilai kategorikal dalam kolom genres menjadi format numerik biner, kemudian hasilnya digabungkan kembali ke DataFrame utama.
 
 #### 5. Ekstraksi Fitur Teks Menggunakan TF-IDF
-Menggabungkan nilai dari kolom name, genres, dan description menjadi satu string dalam kolom baru bernama features, lalu menggunakan TfidfVectorizer untuk mengubah teks tersebut menjadi vektor numerik.
+Pada tahap ini, digunakan teknik **TF-IDF (Term Frequency-Inverse Document Frequency)** untuk membangun representasi fitur berbasis teks dari data film. TF-IDF merupakan metode yang menilai seberapa penting suatu kata dalam sebuah dokumen relatif terhadap keseluruhan dokumen dalam dataset. Implementasinya dilakukan dengan menggabungkan nilai dari kolom `'name'`, `'movie_rated'`, `'genres'`, dan `'rating'` ke dalam satu kolom teks baru bernama `features`. Selanjutnya, kolom ini diproses menggunakan `TfidfVectorizer` untuk mengubahnya menjadi vektor numerik yang akan digunakan dalam perhitungan kemiripan antarfilm.
+
 
 ## Modeling
-### Pendekatan
-Pada tahap ini, sistem rekomendasi dikembangkan menggunakan pendekatan **content-based filtering**, yang merekomendasikan film berdasarkan kemiripan konten antarfilm. Sistem ini menganalisis fitur seperti genre dan rating dari film yang disukai pengguna, lalu mencari film lain yang memiliki karakteristik serupa. Untuk merepresentasikan fitur secara numerik, digunakan teknik **TF-IDF (Term Frequency-Inverse Document Frequency)** yang menyoroti kata atau genre yang paling unik dalam dataset.
+### Pendekatan content-based filtering
+Pada tahap ini, sistem rekomendasi dikembangkan menggunakan pendekatan **content-based filtering**, yang merekomendasikan film berdasarkan kemiripan konten antarfilm. Sistem ini menganalisis fitur seperti genre dan rating dari film yang disukai pengguna, lalu mencari film lain yang memiliki karakteristik serupa.
 
-Setelah vektor fitur terbentuk, sistem menghitung **cosine similarity** untuk mengukur tingkat kemiripan antara film yang dipilih dengan film lainnya. Cosine similarity menghasilkan nilai antara 0 hingga 1, di mana nilai yang lebih mendekati 1 menunjukkan kemiripan yang tinggi. Rekomendasi film kemudian dihasilkan berdasarkan film-film dengan nilai kemiripan tertinggi terhadap film input pengguna. Pendekatan ini bersifat individual, karena hanya bergantung pada konten film tanpa mempertimbangkan preferensi pengguna lain.
+Setelah vektor fitur terbentuk sebelumnya menggunakan teknik TF-IDF pada tahap ekstraksi fitur, sistem menghitung **cosine similarity** untuk mengukur tingkat kemiripan antara film yang dipilih dengan film lainnya. Cosine similarity menghasilkan nilai antara 0 hingga 1, di mana nilai yang lebih mendekati 1 menunjukkan kemiripan yang tinggi. Rekomendasi film kemudian dihasilkan berdasarkan film-film dengan nilai kemiripan tertinggi terhadap film input pengguna. Pendekatan ini bersifat individual, karena hanya bergantung pada konten film tanpa mempertimbangkan preferensi pengguna lain.
 
 ### Kelebihan dan Kekurangan
 #### Kelebihan
@@ -112,24 +111,25 @@ Top 5 rekomendasi:
 
 ```
 
-## Evaluation
-### Metriks Evaluasi
-1. **Skor Cosine Similarity:** Menunjukkan tingkat kemiripan antara film yang dimasukkan pengguna dengan film-film yang direkomendasikan.
-2. **Precision\@K:** Persentase film yang relevan di antara K film teratas yang direkomendasikan oleh sistem.
-3. **Recall\@K:** Persentase film relevan yang berhasil terjaring oleh sistem dari seluruh film relevan yang tersedia.
-
+### Hasil Rekomendasi (Consine Similiarity)
+**Skor Cosine Similarity:** Menunjukkan tingkat kemiripan antara film yang dimasukkan pengguna dengan film-film yang direkomendasikan.
 $$\text{Cosine Similarity} = \frac{\mathbf{A} \cdot \mathbf{B}}{\|\mathbf{A}\| \|\mathbf{B}\|}$$
 
 - $\mathbf{A}$ dan $\mathbf{B}$ adalah vektor TF-IDF dari dua film.  
 - $\|\mathbf{A}\|$ dan $\|\mathbf{B}\|$ adalah norma (magnitudo) dari masing-masing vektor.  
 - $\mathbf{A} \cdot \mathbf{B}$ adalah hasil dot product dari vektor tersebut.
 
+Sistem rekomendasi film berbasis content-based filtering yang dikembangkan mampu menghasilkan rekomendasi dengan tingkat kemiripan konten rata-rata sebesar 0.4279 berdasarkan skor Cosine Similarity. Hal ini menunjukkan bahwa sistem telah cukup berhasil mengenali kesamaan antarfilm berdasarkan fitur seperti genre dan rating.
+
+## Evaluation
+### Metriks Evaluasi
+1. **Precision\@K:** Persentase film yang relevan di antara K film teratas yang direkomendasikan oleh sistem.
+2. **Recall\@K:** Persentase film relevan yang berhasil terjaring oleh sistem dari seluruh film relevan yang tersedia.
+
 ### Hasil Evaluasi Terhadap Metriks
-Berdasarkan hasil evaluasi, sistem rekomendasi film berbasis content-based filtering yang dikembangkan mampu menghasilkan rekomendasi dengan tingkat kemiripan konten rata-rata sebesar 0.4279 berdasarkan skor Cosine Similarity. Hal ini menunjukkan bahwa sistem telah cukup berhasil mengenali kesamaan antarfilm berdasarkan fitur seperti genre dan rating.
+Hasil evaluasi menunjukkan bahwa nilai Precision@10 sebesar 0.0482 mengindikasikan bahwa hanya sebagian kecil dari film yang direkomendasikan benar-benar relevan. Namun demikian, dengan Recall@10 sebesar 0.4821, sistem berhasil menjaring hampir setengah dari film relevan yang tersedia, yang menunjukkan bahwa sistem cukup baik dalam mencakup konten yang memiliki kemiripan. Hal ini menandakan bahwa meskipun akurasi rekomendasi masih dapat ditingkatkan, cakupan sistem dalam mengenali film-film serupa sudah cukup memadai.
 
-Meskipun nilai Precision@10 sebesar 0.0482 menunjukkan bahwa hanya sebagian kecil dari rekomendasi yang benar-benar relevan, sistem memiliki Recall@10 sebesar 0.4821, yang mengindikasikan bahwa hampir setengah dari konten relevan berhasil terjaring dalam daftar rekomendasi. Ini menandakan bahwa sistem memiliki cakupan yang cukup baik dalam menemukan film-film dengan karakteristik serupa, meskipun masih perlu peningkatan dalam hal ketepatan hasil.
-
-Secara keseluruhan, sistem ini menunjukkan potensi awal yang menjanjikan dalam membangun rekomendasi berbasis konten. Ke depannya, performa sistem dapat ditingkatkan lebih lanjut dengan memperkaya fitur konten dan mempertimbangkan pendekatan hybrid untuk meningkatkan akurasi dan keberagaman rekomendasi.
+Secara umum, sistem rekomendasi ini telah menunjukkan performa awal yang cukup solid sebagai model berbasis konten. Ke depannya, akurasi dan kualitas rekomendasi dapat ditingkatkan melalui optimalisasi fitur serta eksplorasi pendekatan hybrid untuk menghasilkan saran yang lebih relevan dan bervariasi.
 
 ### Hasil Evaluasi Terhadap Business Understanding
 1. Apakah Sudah Menjawab Problem Statement?
