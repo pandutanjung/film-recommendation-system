@@ -18,7 +18,9 @@ Sistem ini menganalisis fitur konten seperti genre dan deskripsi film menggunaka
 
 ## Data Understanding
 Sumber Data: [IMDb Movie Dataset](https://github.com/pandutanjung/film-recommendation-system/tree/d8140c80e886f6149452072804b39f4173854389/dataset)
+
 Jumlah Data: 1400
+
 Format:CSV
 
 ### Fitur
