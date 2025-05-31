@@ -21,7 +21,7 @@ Sumber Data: [IMDb Movie Dataset](https://github.com/pandutanjung/film-recommend
 
 Jumlah Data: 1400
 
-Format:CSV
+Format: CSV
 
 ### Fitur
 | Nama | Deskripsi |
@@ -115,6 +115,7 @@ Top 5 rekomendasi:
 
 ### Hasil Rekomendasi (Consine Similiarity)
 **Skor Cosine Similarity:** Menunjukkan tingkat kemiripan antara film yang dimasukkan pengguna dengan film-film yang direkomendasikan.
+
 $$\text{Cosine Similarity} = \frac{\mathbf{A} \cdot \mathbf{B}}{\|\mathbf{A}\| \|\mathbf{B}\|}$$
 
 - $\mathbf{A}$ dan $\mathbf{B}$ adalah vektor TF-IDF dari dua film.  
